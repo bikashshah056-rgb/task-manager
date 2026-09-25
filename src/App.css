@@ -48,14 +48,15 @@ form button {
   padding: 10px 16px;
   border: none;
   border-radius: 6px;
-  background: #4f46e5;
-  color: white;
+  background: #4f46e5 !important;
+  color: white !important;
   font-size: 1rem;
   cursor: pointer;
+  forced-color-adjust: none;
 }
 
 form button:hover {
-  background: #4338ca;
+  background: #4338ca !important;
 }
 
 .filters {
@@ -70,13 +71,15 @@ form button:hover {
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-radius: 20px;
-  background: white;
+  background: white !important;
+  color: #222 !important;
   cursor: pointer;
   font-size: 0.9rem;
+  forced-color-adjust: none;
 }
 
 .filters button:hover {
-  background: #eee;
+  background: #eee !important;
 }
 
 .filters p {
@@ -108,25 +111,27 @@ li span:first-child {
 
 .category-tag {
   font-size: 0.75rem;
-  background: #030a216c;
-  color: #4338ca;
+  background: #e0e7ff !important;
+  color: #4338ca !important;
   padding: 2px 8px;
   border-radius: 10px;
   margin-left: 8px;
+  forced-color-adjust: none;
 }
 
 li button {
   padding: 6px 10px;
   border: none;
   border-radius: 6px;
-  background: #ef4444;
-  color: rgba(17, 2, 2, 0.759);
+  background: #ef4444 !important;
+  color: white !important;
   cursor: pointer;
   font-size: 0.85rem;
+  forced-color-adjust: none;
 }
 
 li button:hover {
-  background: #dc2626;
+  background: #dc2626 !important;
 }
 
 @media (max-width: 480px) {
