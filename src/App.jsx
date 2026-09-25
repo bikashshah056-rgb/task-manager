@@ -1,10 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(() => {
+    // Load saved tasks from localStorage when the app first starts
+    const saved = localStorage.getItem('tasks');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [taskText, setTaskText] = useState('');
-  const [filter, setFilter] = useState('all'); // 'all' | 'active' | 'completed'
+  const [category, setCategory] = useState('Personal');
+  const [filter, setFilter] = useState('all');
+
+  // Whenever "tasks" changes, save it to localStorage
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -14,6 +24,7 @@ function App() {
       id: Date.now(),
       text: taskText,
       completed: false,
+      category: category,
     };
 
     setTasks([...tasks, newTask]);
@@ -32,11 +43,10 @@ function App() {
     setTasks(tasks.filter((task) => task.id !== id));
   }
 
-  // Work out which tasks to actually show, based on the filter
   const visibleTasks = tasks.filter((task) => {
     if (filter === 'active') return !task.completed;
     if (filter === 'completed') return task.completed;
-    return true; // 'all'
+    return true;
   });
 
   const remainingCount = tasks.filter((task) => !task.completed).length;
@@ -52,6 +62,11 @@ function App() {
           onChange={(e) => setTaskText(e.target.value)}
           placeholder="Add a new task..."
         />
+        <select value={category} onChange={(e) => setCategory(e.target.value)}>
+          <option value="Personal">Personal</option>
+          <option value="Work">Work</option>
+          <option value="Urgent">Urgent</option>
+        </select>
         <button type="submit">Add</button>
       </form>
 
@@ -78,6 +93,7 @@ function App() {
               >
                 {task.text}
               </span>
+              <span className="category-tag">{task.category}</span>
               <button onClick={() => deleteTask(task.id)}>Delete</button>
             </li>
           ))}
