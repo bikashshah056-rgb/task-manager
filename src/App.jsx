@@ -6,17 +6,29 @@ function App() {
   const [taskText, setTaskText] = useState('');
 
   function handleSubmit(e) {
-    e.preventDefault(); // stops the page from refreshing
-    if (taskText.trim() === '') return; // ignore empty input
+    e.preventDefault();
+    if (taskText.trim() === '') return;
 
     const newTask = {
-      id: Date.now(), // a quick unique id
+      id: Date.now(),
       text: taskText,
       completed: false,
     };
 
-    setTasks([...tasks, newTask]); // add the new task to the list
-    setTaskText(''); // clear the input box
+    setTasks([...tasks, newTask]);
+    setTaskText('');
+  }
+
+  function toggleComplete(id) {
+    setTasks(
+      tasks.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      )
+    );
+  }
+
+  function deleteTask(id) {
+    setTasks(tasks.filter((task) => task.id !== id));
   }
 
   return (
@@ -35,7 +47,18 @@ function App() {
 
       <ul>
         {tasks.map((task) => (
-          <li key={task.id}>{task.text}</li>
+          <li key={task.id}>
+            <span
+              onClick={() => toggleComplete(task.id)}
+              style={{
+                textDecoration: task.completed ? 'line-through' : 'none',
+                cursor: 'pointer',
+              }}
+            >
+              {task.text}
+            </span>
+            <button onClick={() => deleteTask(task.id)}>Delete</button>
+          </li>
         ))}
       </ul>
     </div>
